@@ -1,5 +1,7 @@
 import React from 'react';
 import { generate, presetPalettes } from '@ant-design/colors';
+import * as Containers from './containers';
+
 // import '../assets/styles/App.less';
 const App = () => {
     const test = `Happy Hacking!`
