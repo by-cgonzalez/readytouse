@@ -1,7 +1,7 @@
 import React, {useEffect, useState } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux';
-import { setStateModals, setSelectedPay, setSelection } from '../../actions/index.js';
+import { setStateModals, setSelectedPay, setSelection, setMontoTotal } from '../../actions/index.js';
 import { Table, Typography, Divider, } from 'antd'
 import { Modal } from '../../components'
 
@@ -81,7 +81,9 @@ const onSelectChange = (selectedRowKeys, all ) => {
     props.setSelectedPay(selectedRowKeys.length)
     props.setSelection(all)
     if(all.length !== 0){
-        setMonto(all.reduce((acum, curr) => ({Monto: acum.Monto + curr.Monto })).Monto)
+        const monto = all.reduce((acum, curr) => ({Monto: acum.Monto + curr.Monto })).Monto
+        setMonto(monto)
+        props.setMontoTotal(monto * -1)
     }
   };
 
@@ -130,6 +132,7 @@ const mapDispatchToProps = {
     setStateModals,
     setSelectedPay,
     setSelection,
+    setMontoTotal,
 };
 
 const mapStateToProps = state => {

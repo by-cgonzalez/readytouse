@@ -3,7 +3,8 @@ const initialState = {
       detalle: false
     },
     pagosSeleccionados: 0,
-    toTXT:[]
+    toTXT:[],
+    montoPorPagar: 0,
 }
 
 const reducer = (state = initialState, action) => {
@@ -22,6 +23,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 toTXT: action.payload
+            }
+        case 'SET_MONTO':
+            return {
+                ...state,
+                montoPorPagar: action.payload
             }
         default:
             return state;

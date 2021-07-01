@@ -7,7 +7,7 @@ import moment from 'moment';
 
 const urlDetalle = `http://${process.env.URL}:4003/Detalle/`
 
-const { Text, Title } = Typography;
+const { Text, Title, } = Typography;
 const ModalDetalle = ({selected, ...props}) => {
     const [detalle, setDetalle] = useState([])
     const [loading, setLoading] = useState(false)
@@ -38,6 +38,11 @@ const ModalDetalle = ({selected, ...props}) => {
             key: 'referencia',
             align: 'center',
         },
+        {
+            title: 'Descripción',
+            dataIndex: 'DescrRef',
+            key: 'descrRef',
+        },
     ]
     
     useEffect(() => {
@@ -67,14 +72,19 @@ const ModalDetalle = ({selected, ...props}) => {
     return (
         <Modal 
             visible={props.stateModals.detalle} 
-            closeIcon={false}
+            // style={{width:'70%'}}
+            onCancel={handleCancel}
+            zIndex={2000}
+            width={800}
             footer={[
                 <Button key="back" type='primary'onClick={handleCancel}>
                   cerrar
                 </Button>,
               ]}
         >
-            <Title type='secondary' level={4} >{selected.Empresa}</Title>
+            <Title type='secondary' level={4} style={{margin:0}}>{selected.Empresa}</Title>
+            <Title type='secondary' level={5} style={{margin:0}}>{selected.DescBanco}({selected.CodCuenta})</Title>
+            
             <Text>Detalle de pagos para beneficiario:</Text>
 
             <Table

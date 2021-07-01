@@ -14,7 +14,12 @@ const Dashboard = (props) => {
   const handleClick = () => {
     // var blob = new Blob(["                  Hello, world!"], {type: "text/plain;charset=utf-8"});
     // saveAs(blob, "prueba.txt");
-    Ordenar({data:props.toTxt, fecha: moment(form.getFieldValue('fecha')).format('yyyyMMDD'), Desc: form.getFieldValue('conceptopago')});
+    Ordenar({
+      data:props.toTxt, 
+      fecha: moment(form.getFieldValue('fecha')).format('yyyyMMDD'), 
+      Desc: form.getFieldValue('conceptopago'),
+      Monto: props.montoPorPagar,
+    });
   }
   const handleOnFinish = (values) => {
     setShow(true)
@@ -75,6 +80,7 @@ const mapStateToProps = state => {
   return {
       pagosSeleccionados: state.pagosSeleccionados,
       toTxt: state.toTXT,
+      montoPorPagar: state.montoPorPagar,
   }    
 }
 

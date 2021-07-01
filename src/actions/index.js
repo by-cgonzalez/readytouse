@@ -18,3 +18,10 @@ export const setSelection = (payload) => {
     payload,
   }
 };
+
+export const setMontoTotal = (payload) => {
+  return {
+    type: 'SET_MONTO',
+    payload,
+  }
+};
