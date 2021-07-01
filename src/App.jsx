@@ -4,6 +4,7 @@ import {
 } from 'react-router-dom';
 import * as Containers from './containers';
 import * as Components from './components';
+import '../src/assets/styles/App.less'
 
 const App = () => {
     return (

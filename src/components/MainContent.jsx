@@ -6,7 +6,14 @@ const MainContent = ({ children }) => {
   const { Content } = Layout;
   return(
     <Layout>
-      <Content>
+      <Content
+        style={{
+          width: '100%',
+          padding: 15,
+          // display:'flex',
+          // justifyContent:'center',
+        }}
+      >
         {children}
       </Content>
     </Layout>

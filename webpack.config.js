@@ -5,16 +5,6 @@ const Dotenv = require('dotenv-webpack');
 
 // Module loaders for .scss files, used in reverse order:
 // compile Sass, apply PostCSS, interpret CSS as modules.
-const scssLoaders = [
-  // Only extract CSS to separate file in production mode.
-  {
-      loader: require.resolve("css-loader"),
-      options: {
-          importLoaders: 1,
-      },
-  },
-];
-
 
 module.exports = {
   entry: './src/index.js',
@@ -24,7 +14,7 @@ module.exports = {
     publicPath: '/',
   },
   resolve: {
-    extensions: ['.js', '.jsx',".scss"],
+    extensions: ['.js', '.jsx',".scss", ".less"],
   },
   module: {
     rules: [
@@ -41,15 +31,6 @@ module.exports = {
           {
             loader: 'html-loader',
           },
-        ],
-      },
-      {
-        test: /\.(s*)css$/,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-          },
-          'css-loader',
         ],
       },
       {
@@ -85,8 +66,10 @@ module.exports = {
           options: {
             lessOptions: { // If you are using less-loader@5 please spread the lessOptions to options directly
               modifyVars: {
-                'primary-color': '#1DA57A',
+                'primary-color': '#333399',
+                'secondary-color':'#1DA57A',
                 'link-color': '#1DA57A',
+                'background': '#FFFFFF',
                 'border-radius-base': '2px',
               },
               javascriptEnabled: true,

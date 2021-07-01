@@ -1,14 +1,27 @@
 import React from 'react'
-import { Row, Col, Layout } from 'antd';
-import '../assets/styles/Header.less';
+import { Row, Col, Layout, Typography } from 'antd';
 
 const MainHeader = () => {
   const { Header } = Layout;
+  const { Title } = Typography;
   return (
     <Layout>
-      <Header>
+      <Header style={{display:'flex', alignItems:'center', justifyContent:'flex-end', height:54}}>
         <Row>
-          <Col flex="auto" align='end'><h1>MAPRIN®</h1></Col>
+          <Col>
+              <Title 
+                level={1} 
+                className='title' 
+                style={{
+                  fontFamily:'Arial', 
+                  fontWeight:900, 
+                  color:'#333399', 
+                  margin:0
+                }}
+              >
+                MAPRIN®
+              </Title>
+          </Col>
         </Row> 
       </Header>
     </Layout>
