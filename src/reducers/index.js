@@ -1,6 +1,12 @@
 const initialState = {
     stateModals: {
-      detalle: false
+      detalle: false,
+      reload: false,
+      result: false,
+    },
+    statusTXT: {
+        status:'',
+        message: '',
     },
     pagosSeleccionados: 0,
     toTXT:[],
@@ -28,6 +34,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 montoPorPagar: action.payload
+            }
+        case 'SET_STATUS':
+            return {
+                ...state,
+                statusTXT: action.payload
             }
         default:
             return state;

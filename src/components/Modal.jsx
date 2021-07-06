@@ -32,12 +32,12 @@ const ModalDetalle = ({selected, ...props}) => {
             align: 'center',
             render: value => moment(value).format('L')
         },
-        {
-            title: 'Nuestra Referencia',
-            dataIndex: 'NuestraRef',
-            key: 'referencia',
-            align: 'center',
-        },
+        // {
+        //     title: 'Nuestra Referencia',
+        //     dataIndex: 'NuestraRef',
+        //     key: 'referencia',
+        //     align: 'center',
+        // },
         {
             title: 'Descripción',
             dataIndex: 'DescrRef',
@@ -47,12 +47,9 @@ const ModalDetalle = ({selected, ...props}) => {
     
     useEffect(() => {
             setLoading(true)
-            console.log('buscando detalle...', selected.ID)
             const getDetalle = async () => {
                 try {
-                    console.log('buscanding')
                     const result = await axios.get(`${urlDetalle}${selected.ID}`)
-                    console.log(result.data)
                     setDetalle(result.data)
                 } catch (error) {
                     console.log(error)
@@ -65,7 +62,6 @@ const ModalDetalle = ({selected, ...props}) => {
 
 
     const handleCancel = () => {
-        console.log('a', detalle)
         props.setStateModals({...props.stateModals, detalle: false})
     }
 

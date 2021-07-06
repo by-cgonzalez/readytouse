@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
-import { Button , DatePicker, Input, Form } from 'antd'
+import { Button , DatePicker, Input, Form,} from 'antd'
 import Resumen from '../Resumen'
 import { connect } from 'react-redux';
+import { setStateModals, setStatus, } from '../../actions/index.js';
 import { Ordenar } from '../../utils/Ordenar.js';
+import Resultado from './Resultado';
 import moment from 'moment';
 
 
@@ -10,23 +12,26 @@ import moment from 'moment';
 const Dashboard = (props) => {
   const [form] = Form.useForm();
   const [showResumen, setShow] = useState(false)
+  let createTXT = {};
   
-  const handleClick = () => {
-    // var blob = new Blob(["                  Hello, world!"], {type: "text/plain;charset=utf-8"});
-    // saveAs(blob, "prueba.txt");
-    Ordenar({
+  const handleClick = async () => {
+    await Ordenar({
       data:props.toTxt, 
       fecha: moment(form.getFieldValue('fecha')).format('yyyyMMDD'), 
       Desc: form.getFieldValue('conceptopago'),
       Monto: props.montoPorPagar,
-    });
+    }).then(result => {
+      createTXT = result;
+      props.setStatus({status:'success', message: result.message})
+      props.setStateModals({...props.stateModals, result:true})
+    }).catch(err => {
+      props.setStatus({status:'error', message:err.message.message})
+      props.setStateModals({...props.stateModals, result:true})
+    })
   }
   const handleOnFinish = (values) => {
+    props.setStateModals({...props.stateModals, reload: true})
     setShow(true)
-  }
-
-  const handleOnFinishFailed = (values) => {
-    console.log('Success:', values);
   }
 
   return (
@@ -38,7 +43,6 @@ const Dashboard = (props) => {
         initialValues={{ remember: true }}
         form={form}
         onFinish={handleOnFinish}
-        onFinishFailed={handleOnFinishFailed}
       >
         <Form.Item
             label="Concepto de Pago"
@@ -70,18 +74,25 @@ const Dashboard = (props) => {
         </Button>
 
       </Form>
-      {showResumen ? <Resumen busqueda={form.getFieldValue('conceptopago')}/> : null}
+      {showResumen ? <Resumen busqueda={form.getFieldValue('conceptopago')}/> : null }
+      {props.stateModals.result ? <Resultado />: null }
     </div>
   )
 
 }
+
+const mapDispatchToProps = {
+  setStateModals,
+  setStatus,
+};
 
 const mapStateToProps = state => {
   return {
       pagosSeleccionados: state.pagosSeleccionados,
       toTxt: state.toTXT,
       montoPorPagar: state.montoPorPagar,
-  }    
+      stateModals: state.stateModals,
+    }    
 }
 
-export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

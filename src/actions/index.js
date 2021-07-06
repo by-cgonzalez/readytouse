@@ -25,3 +25,10 @@ export const setMontoTotal = (payload) => {
     payload,
   }
 };
+
+export const setStatus = (payload) => {
+  return {
+    type: 'SET_STATUS',
+    payload,
+  }
+};

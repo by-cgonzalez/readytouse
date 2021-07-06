@@ -18,8 +18,7 @@ const [montoTotal, setMonto] = useState(0)
 const [pagos, setPagos] = useState([]);
 
 useEffect(() => {
-    if(loading){
-        console.log('buscando pagos...', busqueda)
+    if(loading || props.stateModals.reload){
         const getPagos = async () => {
             try {
                 const result = await axios.get(`${urlResumen}${busqueda}`)
@@ -28,11 +27,12 @@ useEffect(() => {
                 console.log(error)
             } finally {
                 setLoading(false)
+                props.setStateModals({...props.stateModals, reload: false})
             }
         }
         getPagos();
     }
-}, [])
+}, [props.stateModals.reload])
 
 
 const handleShowDetalle = data => {
@@ -50,7 +50,7 @@ const columns = [
         title: 'Monto',
         dataIndex: 'Monto',
         key: 'monto',
-        render: text => <strong>{Intl.NumberFormat("de-DE").format(text * -1)  }</strong>,
+        render: value => <strong>{Intl.NumberFormat("de-DE").format(value)  }</strong>,
     },
     {
         title: 'Instrumento',
@@ -83,7 +83,7 @@ const onSelectChange = (selectedRowKeys, all ) => {
     if(all.length !== 0){
         const monto = all.reduce((acum, curr) => ({Monto: acum.Monto + curr.Monto })).Monto
         setMonto(monto)
-        props.setMontoTotal(monto * -1)
+        props.setMontoTotal(monto)
     }
   };
 
@@ -102,13 +102,13 @@ return(
         </Text>
         <Divider type='vertical' />
         <Text>
-            <strong>Total:</strong> {hasSelected ? Intl.NumberFormat("de-DE").format(montoTotal * -1) : 0}
+            <strong>Total:</strong> {hasSelected ? Intl.NumberFormat("de-DE").format(montoTotal) : 0}
         </Text>
         <Table
             style={{paddingTop:5}}
             rowKey='ID'
             size='small'
-            loading={loading && !pagos.length === 0}
+            loading={loading}
             columns={columns}
             dataSource={pagos}
             rowSelection={{
@@ -119,7 +119,7 @@ return(
                 showSizeChanger:true,
                 position:['bottomLeft'],
                 showTotal: total => `Total ${total} items`,
-                defaultPageSize:10,
+                defaultPageSize:100,
                 defaultCurrent:1,
             }}
         />
