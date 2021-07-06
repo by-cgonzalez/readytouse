@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack serve --open --mode development",
     "build": "webpack --mode production",
-    "docker:run": "docker run --rm -d --name pagomasivo -p 8090:8090 pagomasivo",
+    "docker:run": "docker run --rm -d --name pagomasivo -p 8091:8091 pagomasivo",
     "docker:build": "docker build -t pagomasivo ."
   },
   "keywords": [],
