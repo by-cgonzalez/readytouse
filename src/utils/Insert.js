@@ -6,6 +6,7 @@ export const Insertar = (props) => {
   const insert = new Promise((resolve, reject) =>{
     try {
         const getInsert = async () => {
+          console.log(props)
           const result = await axios.post(urlInsert, props)
           result.data.info && result.data.info.name === 'ERROR' ? reject(result.data.info) : resolve(result.data)
         }

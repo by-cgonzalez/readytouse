@@ -15,7 +15,7 @@ const Dashboard = (props) => {
   const [showResumen, setShow] = useState(false)
   
   const handleClick = async () => {
-    await Insertar(props.toTxt)
+    await Insertar({data:props.toTxt,fecha: moment(form.getFieldValue('fecha')).format('yyyyMMDD')})
     .then(async result => {
       await Ordenar({
         data:props.toTxt, 
