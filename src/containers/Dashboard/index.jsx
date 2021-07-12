@@ -4,6 +4,7 @@ import Resumen from '../Resumen'
 import { connect } from 'react-redux';
 import { setStateModals, setStatus, } from '../../actions/index.js';
 import { Ordenar } from '../../utils/Ordenar.js';
+import { Insertar } from '../../utils/Insert.js';
 import Resultado from './Resultado';
 import moment from 'moment';
 
@@ -12,20 +13,27 @@ import moment from 'moment';
 const Dashboard = (props) => {
   const [form] = Form.useForm();
   const [showResumen, setShow] = useState(false)
-  let createTXT = {};
   
   const handleClick = async () => {
-    await Ordenar({
-      data:props.toTxt, 
-      fecha: moment(form.getFieldValue('fecha')).format('yyyyMMDD'), 
-      Desc: form.getFieldValue('conceptopago'),
-      Monto: props.montoPorPagar,
-    }).then(result => {
-      createTXT = result;
-      props.setStatus({status:'success', message: result.message})
-      props.setStateModals({...props.stateModals, result:true})
-    }).catch(err => {
-      props.setStatus({status:'error', message:err.message.message})
+    await Insertar(props.toTxt)
+    .then(async result => {
+      await Ordenar({
+        data:props.toTxt, 
+        fecha: moment(form.getFieldValue('fecha')).format('yyyyMMDD'), 
+        Desc: form.getFieldValue('conceptopago'),
+        Monto: props.montoPorPagar,
+      }).then(async result => {
+        props.setStatus({status:'success', message: result.message})
+        props.setStateModals({...props.stateModals, result:true})
+      }).catch(err => {
+        console.error(err)
+        props.setStatus({status:'error', message:err.message.message})
+        props.setStateModals({...props.stateModals, result:true})
+      })
+    })
+    .catch(err => {
+      console.log('errinse', err)
+      props.setStatus({status:'error', message:err.message})
       props.setStateModals({...props.stateModals, result:true})
     })
   }
