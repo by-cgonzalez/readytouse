@@ -14,7 +14,7 @@ const MainHeader = () => {
   return (
     <Layout >
 
-          BD: {bd && bd.BD }
+          {/* BD: {bd && bd.BD } */}
 
       <Header style={{display:'flex', alignItems:'center', justifyContent:'flex-end', height:54}}>
         <Row>
